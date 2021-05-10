@@ -65,8 +65,9 @@ while 1:
     #print(uri)
     res = requests.get(uri, headers = headers)
     if res.status_code != 200:
+
         print(uri)
-        print("pleasse login from browser and run script again")
+        print("Please check your Internet connectivity. If the script does not work for you email me the screenshot on gauravak007@gmail.com")
         break;
     centers = res.json()['centers']
 
