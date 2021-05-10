@@ -6,15 +6,19 @@ print(f.renderText('gaurav'))
 
 sound = int(input("Do you want sound : 1 for yes , 2 for no : "))
 sound = 0 if sound == 2 else 1
+print('****************************************************')
 if sound :
-    print("Okay one beep will be played each time table is updated, and 2 beeps will be played if vaccine is available for your age group.")
+    print("Sound is set to on ! \nOne beep each second will be played regularly \n3 beeps per second will be played as soon as vaccine for your age group is available")
 
+else :
+    print("As no sound will be played, you need to manually keep observing the table ;)")
+
+input("press Enter to continue")
 #Imports
 import requests
 import time
 from prettytable import PrettyTable
 from playsound import playsound
-time.sleep(2)
 
 # Script starts here 
 
@@ -36,19 +40,25 @@ for i in range(len(districts)):
 
 district_id = districts[int(input('Enter the serial number of your district : ')) - 1]['district_id']
 
-print('*****************************************')
+print('****************************************************')
 month = input('Enter the current month in number, eg 5 for May : ')
 
-print('*****************************************')
+print('****************************************************')
 date = input('Enter the date of the month that you want to book : ')
 
 if len(str(date)) == 1:
     month = '0' + date
 if len(str(month)) == 1:
     month = '0' + month
+print('What age group you belong to : ')
+print('1. 18-44')
+print('2. 45+')
+age_group = input('Enter your choice :')
+age_group = int(age_group)
+age_group = 2 if age_group == 1 else 1
 
-age_group = input('Enter 1 if your age is 45+ or 2 if your age is 18+ :')
-age_group = int(age_group )
+show_all_info = int(input('Do you want to display info for just your age group(press 1) or all age groups(press 2) : ')) -1
+
 
 while 1:
     uri = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id='+ str(district_id) + '&date='+ str(date) + '-'+ str(month) +'-2021'
@@ -70,7 +80,11 @@ while 1:
         vaccine_above_45 =  "YESSSS" if (i['sessions'][0]['available_capacity'] > 0 and i['sessions'][0]['min_age_limit'] == 45 ) else "No"
         if play_sound == 0 and (((vaccine_above_18 == "YESSSS") and (age_group == 2)) or ((vaccine_above_45 == "YESSSS") and (age_group == 1))):
             play_sound = 1
-        table.add_row([i['name'], i['sessions'][0]['available_capacity'],vaccine_above_18 ,vaccine_above_45, i['sessions'][0]['min_age_limit'] ])
+        if(i['sessions'][0]['min_age_limit'] == 18 and age_group == 2) or show_all_info:
+            table.add_row([i['name'], i['sessions'][0]['available_capacity'],vaccine_above_18 ,vaccine_above_45, i['sessions'][0]['min_age_limit'] ])
+        if(i['sessions'][0]['min_age_limit'] == 45 and age_group == 1) or show_all_info:
+            table.add_row([i['name'], i['sessions'][0]['available_capacity'],vaccine_above_18 ,vaccine_above_45, i['sessions'][0]['min_age_limit'] ])
+
 
     if (sound == 1) and (play_sound == 1):
         playsound('beep.mp3')
@@ -78,7 +92,6 @@ while 1:
     if sound:
         playsound('beep.mp3')
     time.sleep(0.5)
-
     print(table)
     #print(str(i['name']) + ' has '+ str(i['sessions'][0]['available_capacity']) + ' with minimum age limit of '+ str(i['sessions'][0]['min_age_limit']))
 
