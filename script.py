@@ -141,6 +141,6 @@ while 1:
     time.sleep(0.5)
     clear()
     print(table)
-    print("Vaccination drive for 18-45 has been stopped. So you may not see any vaccination centres in the table if you selected that age group.")
+    #print("Vaccination drive for 18-45 has been stopped. So you may not see any vaccination centres in the table if you selected that age group.")
     #print(str(i['name']) + ' has '+ str(i['sessions'][0]['available_capacity']) + ' with minimum age limit of '+ str(i['sessions'][0]['min_age_limit']))
 
