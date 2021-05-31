@@ -105,8 +105,6 @@ def yes_or_no(inp):
 
 aa = 1
 while 1:
-    print(date)
-    print(month)
     uri = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id='+ str(district_id) + '&date='+ str(date) + '-'+ str(month) +'-2021'
     print(uri)
     res = requests.get(uri, headers = headers)
