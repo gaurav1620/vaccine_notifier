@@ -1,3 +1,4 @@
+#!/bin/env python
 #Header
 from pyfiglet import Figlet
 f = Figlet(font='slant')
@@ -82,7 +83,7 @@ date = input('Enter the date of the month that you want to book : ')
 
 # append neccessary zeros before single digits
 if len(str(date)) == 1:
-    month = '0' + date
+    date = '0' + date
 if len(str(month)) == 1:
     month = '0' + month
 
@@ -101,9 +102,13 @@ def yes_or_no(inp):
         return "YESSSS"
     else :
         return "NO"
+
+aa = 1
 while 1:
-    uri = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id='+ str(district_id) + '&date='+ str(date) + '-'+ str(month) +'-2021'
-    #print(uri)
+    print(date)
+    print(month)
+    uri = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id='+ str(district_id) + '&date='+ str(date) + '-'+ str(month) +'-2021'
+    print(uri)
     res = requests.get(uri, headers = headers)
     if res.status_code != 200:
         #print(uri)
